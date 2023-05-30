@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+		
+	
+	<!-- Target : AOP를 적용할 클래스 -->
+	<bean id="testService" class="ex.aop.pojo.core.TestServiceImpl"/>
+	
+	<!-- Advice : 공통사항을 가지고 있는 클래스 -->
+	<bean id="afterAdvice" class="ex.aop.pojo.AfterLogAdvice"/>
+	<bean id="myLogAdvice" class="ex.aop.pojo.MyLogAspect"/>
+	
+	<!-- aop 네임스페이스를 이용한 AOP 설정 -->
+	<aop:config>
+		<aop:pointcut expression="execution(public * ex.aop.pojo.core.*Service.*(..))" 
+			id="publicMethod" />
+			
+		<aop:advisor advice-ref="afterAdvice" pointcut-ref="publicMethod"/>
+		
+		<aop:aspect id="loggingAspect" ref="myLogAdvice"> 
+			<aop:before method="beforeLogging" 
+					pointcut-ref="publicMethod"/>
+					
+			<aop:after-returning method="returningLogging"
+					returning="ret"
+					pointcut-ref="publicMethod"/>
+			
+			<aop:after-throwing method="throwingLogging"
+					throwing="ex"
+					pointcut-ref="publicMethod"/>
+					
+			<aop:after method="afterLogging"
+					pointcut-ref="publicMethod"/>
+			<!-- after는 예외 있건 없건 무조건 실행 -->
+					
+		</aop:aspect>
+	</aop:config>
+	
+</beans>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- 피자 -->
+	<bean id="pizza" class="com.look.Pizza" scope="prototype"/>
+	
+	<bean id="veggiePizza" class="com.look.Pizza" scope="prototype">
+		<property name="isVeg" value="true"/>
+	</bean>
+	
+	<!-- 
+	룩업 메소드 인젝션 : 컨테이너가 관리하는 빈의 메소드를 재정의하여
+		컨테이너의 다른 빈을 검색하는 기능
+	 -->
+	<bean id="pizzaShop" class="com.look.PizzaShop">
+		<lookup-method name="makePizza" bean="pizza"/>
+		<lookup-method name="makeVeggiePizza" bean="veggiePizza"/>
+	</bean>
+	
+
+</beans>

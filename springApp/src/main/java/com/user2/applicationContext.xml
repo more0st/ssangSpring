@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- 인자가 있는 생성자를 이용하여 bean 설정 -->
+	<!-- c 네임스페이스를 이용하여 생성자에 값 설정(문자열 또는 기본자료형) -->
+	<bean id="userService" class="com.user2.UserServiceImpl2"
+		c:name="다자바" c:tel="010-7788-7788" c:age="19"/>
+	
+	<!-- 생성자를 이용한 의존성 주입 : c 네임스페이스 사용 -->
+	<bean id="user" class="com.user2.User"
+		c:userService-ref="userService"
+		init-method="init"
+		destroy-method="destroy"/>
+
+</beans>
