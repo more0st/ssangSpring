@@ -13,7 +13,7 @@ public class CalculatorController {
 	private CalculatorService service;
 	
 	@GetMapping("/calc/main")
-	public String form() {
+	public String form() { 
 		return "calc/write";	// "calc/write"로 포워딩해라. 포워딩해야하는 뷰의 이름  
 	}
 	
